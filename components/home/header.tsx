@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { ModeToggle } from "../ui/mode-toggle";
 
 const navLinks = [
     { href: "#features", label: "Features" },
@@ -90,6 +91,7 @@ export default function Header() {
                     {/* Desktop Auth Buttons */}
                     {!isDashboard && (
                         <div className="hidden md:flex items-center gap-3">
+                            <ModeToggle />
                             <Button
                                 variant="ghost"
                                 asChild
@@ -150,6 +152,7 @@ export default function Header() {
                             ))}
                         </nav>
                         <div className="flex flex-col gap-2 px-4">
+                            <ModeToggle />
                             <Button
                                 variant="outline"
                                 asChild
