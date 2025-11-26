@@ -120,3 +120,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .gradient-emerald {
+    @apply bg-gradient-to-r from-emerald-500 to-teal-600;
+  }
+  
+  .gradient-emerald-text {
+    @apply bg-gradient-to-r from-emerald-600 to-teal-700 bg-clip-text text-transparent;
+  }
+  
+  .glass-nav {
+    @apply bg-white/80 dark:bg-gray-950/80;
+  }
+}
