@@ -1,4 +1,6 @@
 import { Sparkles } from "lucide-react";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 export default function HeroSection() {
     return (
@@ -24,6 +26,24 @@ export default function HeroSection() {
                             transcripts, social posts, key moments, and more - all in minutes.
                         </p>
                     </div>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Button
+                        size="lg"
+                        className="gradient-emerald text-white hover-glow text-lg px-8 py-6 rounded-xl shadow-lg"
+                    >
+                        Get Started
+                        <Sparkles className="ml-2 h-6 w-6" />
+                    </Button>
+                    <Link href="/dashboard/projects">
+                        <Button
+                            size="lg"
+                            variant="outline"
+                            className="hover-glow text-lg px-8 py-6 rounded-xl"
+                        >
+                            View Projects
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </section>

@@ -2,7 +2,7 @@ import { Sparkles } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="border-t bg-gradient-to-br from-gray-50 to-emerald-50/30">
+        <footer className="border-t bg-gradient-to-br bg-background to-emerald-50/30">
             <div className="container mx-auto px-4 py-12">
                 <div className="max-w-6xl mx-auto">
                     <div className="grid md:grid-cols-3 gap-8 mb-8">
@@ -16,7 +16,7 @@ export default function Footer() {
                                     Podcassti
                                 </span>
                             </div>
-                            <p className="text-gray-600 text-sm leading-relaxed">
+                            <p className="text-muted-foreground text-sm leading-relaxed">
                                 AI-powered podcast processing that transforms your content into
                                 engagement gold.
                             </p>
@@ -24,12 +24,12 @@ export default function Footer() {
 
                         {/* Quick Links */}
                         <div>
-                            <h3 className="font-bold mb-4 text-gray-900">Quick Links</h3>
+                            <h3 className="font-bold mb-4 text-foreground">Quick Links</h3>
                             <ul className="space-y-2">
                                 <li>
                                     <a
                                         href="/"
-                                        className="text-gray-600 hover:text-emerald-600 transition-colors text-sm"
+                                        className="text-muted-foreground hover:text-emerald-600 transition-colors text-sm"
                                     >
                                         Home
                                     </a>
@@ -37,7 +37,7 @@ export default function Footer() {
                                 <li>
                                     <a
                                         href="/dashboard/projects"
-                                        className="text-gray-600 hover:text-emerald-600 transition-colors text-sm"
+                                        className="text-muted-foreground hover:text-emerald-600 transition-colors text-sm"
                                     >
                                         Projects
                                     </a>
@@ -45,7 +45,7 @@ export default function Footer() {
                                 <li>
                                     <a
                                         href="/dashboard/upload"
-                                        className="text-gray-600 hover:text-emerald-600 transition-colors text-sm"
+                                        className="text-muted-foreground hover:text-emerald-600 transition-colors text-sm"
                                     >
                                         Upload
                                     </a>
@@ -55,12 +55,12 @@ export default function Footer() {
 
                         {/* Support */}
                         <div>
-                            <h3 className="font-bold mb-4 text-gray-900">Support</h3>
+                            <h3 className="font-bold mb-4 text-foreground">Support</h3>
                             <ul className="space-y-2">
                                 <li>
                                     <a
                                         href="#"
-                                        className="text-gray-600 hover:text-emerald-600 transition-colors text-sm"
+                                        className="text-muted-foreground hover:text-emerald-600 transition-colors text-sm"
                                     >
                                         Documentation
                                     </a>
@@ -68,7 +68,7 @@ export default function Footer() {
                                 <li>
                                     <a
                                         href="#"
-                                        className="text-gray-600 hover:text-emerald-600 transition-colors text-sm"
+                                        className="text-muted-foreground hover:text-emerald-600 transition-colors text-sm"
                                     >
                                         Contact Us
                                     </a>
@@ -76,7 +76,7 @@ export default function Footer() {
                                 <li>
                                     <a
                                         href="#"
-                                        className="text-gray-600 hover:text-emerald-600 transition-colors text-sm"
+                                        className="text-muted-foreground hover:text-emerald-600 transition-colors text-sm"
                                     >
                                         Privacy Policy
                                     </a>
@@ -87,7 +87,7 @@ export default function Footer() {
 
                     {/* Bottom bar */}
                     <div className="pt-8 border-t border-gray-200">
-                        <p className="text-center text-sm text-gray-600">
+                        <p className="text-center text-sm text-forground">
                             {new Date().getFullYear()} Podassti. Made with ❤️ by Mr. Yousef Eltrach.
                         </p>
                     </div>
