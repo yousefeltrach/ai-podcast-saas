@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 export default function HeroSection() {
     return (
-        <section className="relative overflow-hidden mesh-background">
+        <section className="relative overflow-hidden ">
             <div className="container mx-auto px-4 py-24 md:pb-32 md:pt-20">
                 <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-20 animate-float">
