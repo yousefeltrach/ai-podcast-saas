@@ -72,7 +72,7 @@ export default function Header() {
                         </Link>
 
                         {/* Desktop Navigation */}
-                        {!isDashboard && (
+                        {/* {!isDashboard && (
                             <nav className="hidden md:flex items-center gap-1">
                                 {navLinks.map((link) => (
                                     <a
@@ -85,7 +85,7 @@ export default function Header() {
                                     </a>
                                 ))}
                             </nav>
-                        )}
+                        )} */}
                     </div>
 
                     {/* Desktop Auth Buttons */}
@@ -139,7 +139,7 @@ export default function Header() {
                 {/* Mobile Menu */}
                 {!isDashboard && mobileMenuOpen && (
                     <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-800 animate-in slide-in-from-top-2 duration-200">
-                        <nav className="flex flex-col gap-2 mb-4">
+                        {/* <nav className="flex flex-col gap-2 mb-4">
                             {navLinks.map((link) => (
                                 <a
                                     key={link.href}
@@ -150,7 +150,7 @@ export default function Header() {
                                     {link.label}
                                 </a>
                             ))}
-                        </nav>
+                        </nav> */}
                         <div className="flex flex-col gap-2 px-4">
                             <ModeToggle />
                             <Button
