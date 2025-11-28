@@ -67,7 +67,7 @@ export default function Header() {
                                         : "text-xl font-bold gradient-emerald-text tracking-tight"
                                 }
                             >
-                                Podassi
+                                Podassti
                             </span>
                         </Link>
 

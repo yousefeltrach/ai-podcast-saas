@@ -5,16 +5,6 @@ import Link from "next/link";
 export default function CtaSection() {
     return (
         <section className="relative py-24 md:py-32 overflow-hidden">
-            {/* Gradient background */}
-            {/* <div className="absolute inset-0 gradient-emerald"></div> */}
-
-            {/* Decorative elements */}
-            <div className="absolute  top-10 right-10 w-72 h-72 bg-background rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-float"></div>
-            {/* <div
-                className="absolute bottom-10 left-10 w-72 h-72 bg-teal-200 rounded-full mix-blend-overlay filter blur-3xl opacity-30 animate-float"
-                style={{ animationDelay: "1.5s" }}
-            ></div> */}
-
             <div className="container mx-auto px-4 relative z-10">
                 <div className="max-w-4xl mx-auto text-center">
                     <div className="rounded-3xl p-12 md:p-16">
