@@ -21,9 +21,9 @@ const pricingPlans = [
             "Priority processing",
             "Advanced analytics",
         ],
-        gradient: "from-blue-500/10 via-cyan-500/10 to-teal-500/10",
-        borderGradient: "from-blue-500 via-cyan-500 to-teal-500",
-        iconColor: "text-blue-500",
+        gradient: "from-emerald-500/10 via-teal-500/10 to-cyan-500/10",
+        borderGradient: "from-emerald-500 via-teal-500 to-cyan-500",
+        iconColor: "text-emerald-600",
         buttonVariant: "outline" as const,
     },
     {
@@ -43,9 +43,9 @@ const pricingPlans = [
             "Priority support",
         ],
         notIncluded: [],
-        gradient: "from-purple-500/20 via-pink-500/20 to-rose-500/20",
-        borderGradient: "from-purple-500 via-pink-500 to-rose-500",
-        iconColor: "text-purple-500",
+        gradient: "from-emerald-500/20 via-teal-500/20 to-emerald-600/20",
+        borderGradient: "from-emerald-500 via-teal-500 to-emerald-600",
+        iconColor: "text-emerald-600",
         buttonVariant: "default" as const,
     },
     {
@@ -64,9 +64,9 @@ const pricingPlans = [
             "Custom contract terms",
         ],
         notIncluded: [],
-        gradient: "from-amber-500/10 via-orange-500/10 to-yellow-500/10",
-        borderGradient: "from-amber-500 via-orange-500 to-yellow-500",
-        iconColor: "text-amber-500",
+        gradient: "from-teal-500/10 via-emerald-500/10 to-green-500/10",
+        borderGradient: "from-teal-500 via-emerald-500 to-green-500",
+        iconColor: "text-teal-600",
         buttonVariant: "outline" as const,
     },
 ];
@@ -76,8 +76,8 @@ export default function PricingSection() {
         <section className="py-24 px-4 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 -z-10 overflow-hidden">
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
             </div>
 
             <div className="max-w-7xl mx-auto">
@@ -106,7 +106,7 @@ export default function PricingSection() {
                                 {/* Popular Badge */}
                                 {plan.popular && (
                                     <div className="absolute -top-5 left-0 right-0 flex justify-center z-10">
-                                        <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 px-4 py-1 shadow-lg">
+                                        <Badge className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-0 px-4 py-1 shadow-lg">
                                             ⭐ Most Popular
                                         </Badge>
                                     </div>
@@ -114,8 +114,8 @@ export default function PricingSection() {
 
                                 <Card
                                     className={`relative h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${plan.popular
-                                            ? 'border-2 shadow-xl scale-105 md:scale-110'
-                                            : 'hover:border-primary/50'
+                                        ? 'border-2 shadow-xl scale-105 md:scale-110'
+                                        : 'hover:border-primary/50'
                                         }`}
                                 >
                                     {/* Gradient Border Effect */}
@@ -134,7 +134,7 @@ export default function PricingSection() {
                                                 <Icon className={`w-6 h-6 ${plan.iconColor}`} />
                                             </div>
                                             {plan.popular && (
-                                                <Sparkles className="w-5 h-5 text-purple-500 animate-pulse" />
+                                                <Sparkles className="w-5 h-5 text-emerald-600 animate-pulse" />
                                             )}
                                         </div>
                                         <div>
@@ -180,8 +180,8 @@ export default function PricingSection() {
                                         <Button
                                             variant={plan.buttonVariant}
                                             className={`w-full ${plan.popular
-                                                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 shadow-lg'
-                                                    : ''
+                                                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white border-0 shadow-lg'
+                                                : ''
                                                 }`}
                                             size="lg"
                                         >
