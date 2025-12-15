@@ -56,13 +56,14 @@ import { Sparkles } from "lucide-react";
 import Link from "next/link";
 // import { PodcastUploader } from "@/components/podcast-uploader";
 import { Button } from "@/components/ui/button";
+import { PodcastUploader } from "../podcast-uploader";
 
 export async function HeroSection() {
     const { userId } = await auth();
     const isSignedIn = !!userId;
 
     return (
-        <section className="relative overflow-hidden mesh-background">
+        <section className="relative overflow-hidden ">
             <div className="container mx-auto px-4 py-24 md:pb-32 md:pt-20">
                 <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-20 animate-float">
@@ -88,7 +89,7 @@ export async function HeroSection() {
                     {isSignedIn ? (
                         <div className="space-y-6">
                             <div className="glass-card-strong rounded-2xl p-8 hover-lift">
-                                {/* <PodcastUploader /> */}
+                                <PodcastUploader />
                             </div>
                             <div className="text-center">
                                 <Link href="/dashboard/projects">
