@@ -28,6 +28,10 @@ export function ProjectCard({
 }: ProjectCardProps) {
     const title = displayName || fileName;
 
+    function formatBytes(fileSize: number): import("react").ReactNode {
+        throw new Error("Function not implemented.");
+    }
+
     return (
         <Link href={`/dashboard/projects/${id}`}>
             <Card className="group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer border-2 hover:border-emerald-500/50 relative overflow-hidden">
