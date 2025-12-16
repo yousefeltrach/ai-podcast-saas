@@ -1,6 +1,7 @@
 import { UserButton } from "@clerk/nextjs";
 import { DashboardNav } from "@/components/dashboard-nav";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import Link from "next/link";
 
 export default function DashboardLayout({
     children,
@@ -15,9 +16,11 @@ export default function DashboardLayout({
                     <div className="flex items-center justify-between">
                         {/* Logo / Brand */}
                         <div className="flex items-center gap-8">
-                            <h1 className="text-2xl font-bold text-white">
-                                Podassti
-                            </h1>
+                            <Link href="/" className="hover:opacity-80 transition-opacity">
+                                <h1 className="text-2xl font-bold text-white">
+                                    Podassti
+                                </h1>
+                            </Link>
                             {/* Navigation */}
                             <DashboardNav />
                         </div>

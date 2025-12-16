@@ -90,7 +90,7 @@ export function UploadDropzone({
         className={cn(
           // Base styles: Dashed border, clickable, transitions
           "border-3 border-dashed rounded-2xl p-16 text-center cursor-pointer transition-all",
-          "border-emerald-300 hover:border-emerald-500 hover:bg-emerald-50/50",
+          "border-emerald-300 hover:border-emerald-500 ",
           // Drag active state (file hovering over dropzone)
           isDragActive && "border-emerald-600 bg-emerald-50 scale-[1.02] shadow-xl",
           // Disabled state
@@ -119,19 +119,19 @@ export function UploadDropzone({
 
           {/* Instructions and info */}
           <div className="space-y-3">
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-primary">
               {isDragActive
                 ? "Drop your podcast file here"
                 : "Drag & drop your podcast file"}
             </p>
-            <p className="text-base text-gray-600">
+            <p className="text-base ">
               or click to browse files
             </p>
             <div className="pt-2 space-y-1">
-              <p className="text-sm text-gray-500 font-medium">
+              <p className="text-sm text-muted-foreground font-medium">
                 Supports: MP3, WAV, M4A, FLAC, OGG, AAC, and more
               </p>
-              <p className="text-sm text-gray-500 font-semibold">
+              <p className="text-sm text-muted-foreground font-semibold">
                 Maximum file size: {Math.round(maxSize / (1024 * 1024))}MB
               </p>
             </div>

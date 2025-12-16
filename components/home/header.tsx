@@ -324,7 +324,7 @@ export function Header() {
                                     </Link>
                                 )}
                                 {showDashboardNav && (
-                                    <Link href="/" className="hidden lg:block">
+                                    <Link href="/">
                                         <Button
                                             variant="ghost"
                                             size="sm"
@@ -335,7 +335,7 @@ export function Header() {
                                             }
                                         >
                                             <Home className="h-4 w-4" />
-                                            Home
+                                            <span className="hidden sm:inline">Home</span>
                                         </Button>
                                     </Link>
                                 )}
