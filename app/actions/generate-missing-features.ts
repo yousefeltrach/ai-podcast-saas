@@ -13,7 +13,6 @@
  * Note: Transcription is NOT a feature - it's available to all users.
  */
 
-import { inngest } from "@/inngest/client";
 import { auth } from "@clerk/nextjs/server";
 import type { Id } from "@/convex/_generated/dataModel";
 // Removed getUserPlan - using Clerk's has() directly per docs
@@ -88,27 +87,11 @@ export async function generateMissingFeatures(projectId: Id<"projects">) {
     );
   }
 
-  // Trigger Inngest jobs for all missing features in parallel
-  await Promise.all(
-    missingJobs.map((job) =>
-      inngest.send({
-        name: "podcast/retry-job",
-        data: {
-          projectId,
-          job,
-          userId,
-          originalPlan,
-          currentPlan,
-        },
-      })
-    )
-  );
 
   return {
     success: true,
     generated: missingJobs,
-    message: `Generating ${missingJobs.length} feature${
-      missingJobs.length > 1 ? "s" : ""
-    }: ${missingJobs.join(", ")}`,
+    message: `Generating ${missingJobs.length} feature${missingJobs.length > 1 ? "s" : ""
+      }: ${missingJobs.join(", ")}`,
   };
 }

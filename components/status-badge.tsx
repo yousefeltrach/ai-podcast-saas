@@ -10,7 +10,14 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {
-    const config = {
+    interface StatusConfig {
+        label: string;
+        icon: React.ElementType;
+        className: string;
+        animate?: boolean;
+    }
+
+    const config: Record<StatusBadgeProps["status"], StatusConfig> = {
         uploaded: {
             label: "Uploaded",
             icon: Clock,

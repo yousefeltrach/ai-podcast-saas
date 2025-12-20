@@ -8,7 +8,6 @@
  * Triggers a new Inngest event to regenerate just that specific output.
  */
 
-import { inngest } from "@/inngest/client";
 import { auth } from "@clerk/nextjs/server";
 import type { Id } from "@/convex/_generated/dataModel";
 // Removed getUserPlan - using Clerk's has() directly per docs
@@ -54,18 +53,6 @@ export async function retryJob(projectId: Id<"projects">, job: RetryableJob) {
     originalPlan = "pro";
   }
 
-  // Trigger Inngest event to retry the specific job
-  // Pass both original and current plans to detect upgrades
-  await inngest.send({
-    name: "podcast/retry-job",
-    data: {
-      projectId,
-      job,
-      userId,
-      originalPlan,
-      currentPlan,
-    },
-  });
 
   return { success: true };
 }

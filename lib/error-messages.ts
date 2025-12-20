@@ -6,6 +6,7 @@
  */
 
 import { PLAN_LIMITS, PLAN_NAMES, PLAN_PRICES, type PlanName } from "./tier-config";
+import { formatBytes } from "./format";
 
 export interface UpgradeMessageDetails {
   title: string;
@@ -121,15 +122,6 @@ export function getUpgradeMessage(
   }
 }
 
-/**
- * Format file size for display
- */
-export function formatFileSize(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-  return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`;
-}
 
 /**
  * Format duration for display
@@ -137,7 +129,7 @@ export function formatFileSize(bytes: number): string {
 export function formatDuration(seconds: number): string {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
-  
+
   if (hours > 0) {
     return `${hours}h ${minutes}m`;
   }

@@ -5,7 +5,7 @@ import { StatusBadge } from "@/components/status-badge";
 import { formatDistanceToNow } from "date-fns";
 import { FileAudio, Clock } from "lucide-react";
 import Link from "next/link";
-import { formatDuration, formatFileSize, formatSmartDate } from "@/lib/format";
+import { formatDuration, formatBytes, formatSmartDate } from "@/lib/format";
 
 interface ProjectCardProps {
     id: string;
@@ -28,9 +28,6 @@ export function ProjectCard({
 }: ProjectCardProps) {
     const title = displayName || fileName;
 
-    function formatBytes(fileSize: number): import("react").ReactNode {
-        throw new Error("Function not implemented.");
-    }
 
     return (
         <Link href={`/dashboard/projects/${id}`}>

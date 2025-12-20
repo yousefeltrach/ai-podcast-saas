@@ -24,7 +24,7 @@
 "use client";
 
 import { CheckCircle2, Clock, FileAudio, Loader2, XCircle } from "lucide-react";
-import { formatDuration, formatFileSize } from "@/lib/format";
+import { formatDuration, formatBytes } from "@/lib/format";
 import type { UploadStatus } from "@/lib/types";
 
 interface UploadProgressProps {
@@ -61,7 +61,7 @@ export function UploadProgress({
 
             {/* Size and duration metadata */}
             <div className="flex items-center gap-3 text-sm text-gray-600 mt-2">
-              <span className="font-medium">{formatFileSize(fileSize)}</span>
+              <span className="font-medium">{formatBytes(fileSize)}</span>
               {fileDuration && (
                 <>
                   <span>•</span>
@@ -95,7 +95,7 @@ export function UploadProgress({
         {(status === "uploading" || status === "processing") && (
           <div className="space-y-3">
             <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
-              <div 
+              <div
                 className="absolute inset-y-0 left-0 progress-emerald rounded-full transition-all duration-300 ease-out"
                 style={{ width: `${progress}%` }}
               />

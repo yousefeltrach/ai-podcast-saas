@@ -22,7 +22,6 @@ import { auth } from "@clerk/nextjs/server";
 import { del } from "@vercel/blob";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
-import { inngest } from "@/inngest/client";
 import { convex } from "@/lib/convex-client";
 import { checkUploadLimits } from "@/lib/tier-utils";
 
@@ -153,20 +152,6 @@ export async function createProjectAction(input: CreateProjectInput) {
       mimeType: mimeType,
     });
 
-    // Trigger Inngest workflow asynchronously with user's current plan
-    // Event name "podcast/uploaded" matches workflow trigger
-    await inngest.send({
-      name: "podcast/uploaded",
-      data: {
-        projectId, // Convex project ID
-        userId,
-        plan, // Pass user's current plan for conditional generation
-        fileUrl, // URL to audio file in Blob
-        fileName,
-        fileSize: fileSize || 0,
-        mimeType: mimeType,
-      },
-    });
 
     return { success: true, projectId };
   } catch (error) {
