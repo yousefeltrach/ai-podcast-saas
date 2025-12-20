@@ -48,9 +48,10 @@ export const createProject = mutation({
  */
 export const getProject = query({
     args: {
-        projectId: v.id("projects"),
+        projectId: v.optional(v.id("projects")),
     },
     handler: async (ctx, args) => {
+        if (!args.projectId) return null;
         const project = await ctx.db.get(args.projectId);
         return project;
     },
