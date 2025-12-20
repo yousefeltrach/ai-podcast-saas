@@ -18,6 +18,8 @@ export default defineSchema({
         fileDuration: v.optional(v.number()), // Duration in seconds
         fileFormat: v.string(), // File extension (mp3, wav, etc.)
         mimeType: v.string(), // MIME type
+        sourceUrl: v.optional(v.string()), // Original YouTube/Spotify link
+        sourceType: v.union(v.literal("file"), v.literal("youtube"), v.literal("spotify")),
 
         // Display & Metadata
         displayName: v.optional(v.string()), // User-editable display name

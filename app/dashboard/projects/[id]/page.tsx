@@ -21,6 +21,8 @@ import {
     Clock,
     Lock,
     Sparkles,
+    Youtube,
+    ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
 import { formatBytes, formatDuration } from "@/lib/format";
@@ -178,6 +180,21 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                         <span>
                             Created {formatDistanceToNow(project._creationTime, { addSuffix: true })}
                         </span>
+                        {project.sourceUrl && project.sourceType === "youtube" && (
+                            <>
+                                <span>•</span>
+                                <a
+                                    href={project.sourceUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1.5 hover:text-emerald-600 transition-colors"
+                                >
+                                    <Youtube className="h-4 w-4" />
+                                    <span>Source Video</span>
+                                    <ExternalLink className="h-3 w-3" />
+                                </a>
+                            </>
+                        )}
                     </div>
 
                     {/* Error Message */}

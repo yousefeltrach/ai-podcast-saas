@@ -19,12 +19,113 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { del } from "@vercel/blob";
+import { put, del } from "@vercel/blob";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { convex } from "@/lib/convex-client";
 import { checkUploadLimits } from "@/lib/tier-utils";
 import { processPodcast } from "@/gemini/functions/podcast-processor";
+import {
+  getYouTubeMetadata,
+  getYouTubeAudioStream,
+  isValidYouTubeUrl,
+  streamToBuffer,
+} from "@/lib/youtube";
+
+/**
+ * Get YouTube metadata for preview
+ */
+export async function getYouTubeMetadataAction(url: string) {
+  try {
+    const authObj = await auth();
+    if (!authObj.userId) {
+      throw new Error("Unauthorized");
+    }
+
+    if (!isValidYouTubeUrl(url)) {
+      throw new Error("Invalid YouTube URL");
+    }
+
+    const metadata = await getYouTubeMetadata(url);
+    return { success: true, metadata };
+  } catch (error) {
+    console.error("Error in getYouTubeMetadataAction:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to fetch metadata"
+    };
+  }
+}
+
+/**
+ * Process a YouTube link
+ * 
+ * 1. Extract audio stream
+ * 2. Upload to Vercel Blob
+ * 3. Create project in Convex
+ * 4. Trigger AI workflow
+ */
+export async function processYouTubeLinkAction(url: string) {
+  try {
+    const authObj = await auth();
+    const { userId } = authObj;
+
+    if (!userId) {
+      throw new Error("Unauthorized");
+    }
+
+    if (!isValidYouTubeUrl(url)) {
+      throw new Error("Invalid YouTube URL");
+    }
+
+    // Step 1: Get metadata for validation and storage
+    const metadata = await getYouTubeMetadata(url);
+
+    // Step 2: Validate limits (using duration if available)
+    const validation = await checkUploadLimits(
+      authObj,
+      userId,
+      0, // We don't know the exact file size yet, but we check duration
+      metadata.duration
+    );
+
+    if (!validation.allowed) {
+      throw new Error(validation.message || "Upload not allowed for your plan");
+    }
+
+    // Step 3: Get audio stream and upload to Vercel Blob
+    const stream = await getYouTubeAudioStream(url);
+
+    // Convert stream to Buffer to avoid "Response body already disturbed or locked" error
+    // in the Next.js/Vercel Blob environment.
+    const buffer = await streamToBuffer(stream);
+
+    // We use put() for server-side upload.
+    // The filename for YouTube is constructed from the title.
+    const safeTitle = metadata.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    const fileName = `${safeTitle}.mp3`;
+
+    const blob = await put(fileName, buffer, {
+      access: "public",
+      contentType: "audio/mpeg",
+    });
+
+    // Step 4: Create project and trigger workflow
+    return await createProjectAction({
+      fileUrl: blob.url,
+      fileName: metadata.title, // Use actual title for display
+      fileSize: 0, // Size is not easily known beforehand from stream
+      mimeType: "audio/mpeg",
+      fileDuration: metadata.duration,
+      sourceUrl: url,
+      sourceType: "youtube",
+    });
+
+  } catch (error) {
+    console.error("Error in processYouTubeLinkAction:", error);
+    throw error;
+  }
+}
 
 /**
  * Validate upload before starting
@@ -69,10 +170,14 @@ interface CreateProjectInput {
   fileSize: number; // Bytes
   mimeType: string; // MIME type
   fileDuration?: number; // Seconds (optional)
+  sourceUrl?: string; // YouTube/Spotify link
+  sourceType?: "file" | "youtube" | "spotify";
 }
 
 /**
- * Create project and trigger Inngest workflow
+ * Create project and trigger workflow
+ *
+ * Now supports both file uploads and link-based projects.
  *
  * Atomic Operation (both or neither):
  * 1. Validate user's plan and limits
@@ -109,7 +214,7 @@ export async function createProjectAction(input: CreateProjectInput) {
       throw new Error("Unauthorized");
     }
 
-    const { fileUrl, fileName, fileSize, mimeType, fileDuration } = input;
+    const { fileUrl, fileName, fileSize, mimeType, fileDuration, sourceUrl, sourceType = "file" } = input;
 
     // Validate required fields
     if (!fileUrl || !fileName) {
@@ -151,6 +256,8 @@ export async function createProjectAction(input: CreateProjectInput) {
       fileDuration,
       fileFormat: fileExtension,
       mimeType: mimeType,
+      sourceUrl,
+      sourceType,
     });
 
     // Trigger AI processing workflow in the background

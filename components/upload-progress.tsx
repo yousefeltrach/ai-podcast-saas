@@ -61,15 +61,13 @@ export function UploadProgress({
 
             {/* Size and duration metadata */}
             <div className="flex items-center gap-3 text-sm text-gray-600 mt-2">
-              <span className="font-medium">{formatBytes(fileSize)}</span>
+              {fileSize > 0 && <span className="font-medium">{formatBytes(fileSize)}</span>}
+              {fileSize > 0 && fileDuration && <span>•</span>}
               {fileDuration && (
-                <>
-                  <span>•</span>
-                  <div className="flex items-center gap-1.5">
-                    <Clock className="h-4 w-4" />
-                    <span className="font-medium">{formatDuration(fileDuration)}</span>
-                  </div>
-                </>
+                <div className="flex items-center gap-1.5">
+                  <Clock className="h-4 w-4" />
+                  <span className="font-medium">{formatDuration(fileDuration)}</span>
+                </div>
               )}
             </div>
           </div>
@@ -144,6 +142,6 @@ export function UploadProgress({
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 }

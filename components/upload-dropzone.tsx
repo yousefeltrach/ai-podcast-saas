@@ -74,6 +74,10 @@ export function UploadDropzone({
         "audio/x-flac": [".flac"], // FLAC (alternate MIME)
         "audio/3gpp": [".3gp"], // 3GP
         "audio/3gpp2": [".3g2"], // 3G2
+        "video/mp4": [".mp4", ".m4v"], // MP4 Video
+        "video/quicktime": [".mov"], // QuickTime Video
+        "video/x-msvideo": [".avi"], // AVI Video
+        "video/webm": [".webm"], // WebM Video
       },
       maxSize, // File size limit (validates before upload)
       maxFiles: 1, // Only allow single file selection
@@ -121,15 +125,15 @@ export function UploadDropzone({
           <div className="space-y-3">
             <p className="text-2xl font-bold text-primary">
               {isDragActive
-                ? "Drop your podcast file here"
-                : "Drag & drop your podcast file"}
+                ? "Drop your file here"
+                : "Drag & drop your podcast or video"}
             </p>
             <p className="text-base ">
               or click to browse files
             </p>
             <div className="pt-2 space-y-1">
               <p className="text-sm text-muted-foreground font-medium">
-                Supports: MP3, WAV, M4A, FLAC, OGG, AAC, and more
+                Supports: MP3, WAV, M4A, MP4, MOV, FLAC, and more
               </p>
               <p className="text-sm text-muted-foreground font-semibold">
                 Maximum file size: {Math.round(maxSize / (1024 * 1024))}MB

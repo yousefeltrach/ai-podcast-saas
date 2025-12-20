@@ -23,6 +23,8 @@ export const createProject = mutation({
         fileDuration: v.optional(v.number()),
         fileFormat: v.string(),
         mimeType: v.string(),
+        sourceUrl: v.optional(v.string()),
+        sourceType: v.union(v.literal("file"), v.literal("youtube"), v.literal("spotify")),
     },
     handler: async (ctx, args) => {
         const projectId = await ctx.db.insert("projects", {
@@ -33,6 +35,8 @@ export const createProject = mutation({
             fileDuration: args.fileDuration,
             fileFormat: args.fileFormat,
             mimeType: args.mimeType,
+            sourceUrl: args.sourceUrl,
+            sourceType: args.sourceType,
             status: "uploaded",
             // displayName defaults to fileName if not set
         });
