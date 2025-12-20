@@ -46,6 +46,13 @@ export default defineSchema({
         keyMoments: v.optional(v.string()), // ULTRA (JSON string of key moments)
         youtubeTimestamps: v.optional(v.string()), // ULTRA (formatted timestamps)
         speakerDiarization: v.optional(v.string()), // ULTRA (JSON string of speaker segments)
+
+        // Job Tracking & Errors
+        transcriptionStatus: v.optional(v.union(v.literal("running"), v.literal("completed"), v.literal("error"))),
+        contentGenerationStatus: v.optional(v.union(v.literal("running"), v.literal("completed"), v.literal("error"))),
+        jobErrors: v.optional(v.string()), // JSON string of Record<string, string>
+        lastErrorStep: v.optional(v.string()),
+        lastErrorDetails: v.optional(v.string()),
     })
         // Indexes for efficient queries
         .index("by_userId", ["userId"])

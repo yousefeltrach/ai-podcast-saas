@@ -237,3 +237,77 @@ export const updateProjectContent = mutation({
         }
     },
 });
+
+/**
+ * Save transcription and speakers to Convex
+ */
+export const saveTranscript = mutation({
+    args: {
+        projectId: v.id("projects"),
+        transcript: v.any(), // Flexible object since it contains nested arrays/objects
+    },
+    handler: async (ctx, args) => {
+        const { projectId, transcript } = args;
+
+        await ctx.db.patch(projectId, {
+            transcription: transcript.text,
+            speakerDiarization: transcript.speakers ? JSON.stringify(transcript.speakers) : undefined,
+            // You might also want to save chapters here if you added them to the schema
+        });
+    },
+});
+
+/**
+ * Update the status of specific job steps
+ */
+export const updateJobStatus = mutation({
+    args: {
+        projectId: v.id("projects"),
+        transcription: v.optional(v.union(v.literal("running"), v.literal("completed"), v.literal("error"))),
+        contentGeneration: v.optional(v.union(v.literal("running"), v.literal("completed"), v.literal("error"))),
+    },
+    handler: async (ctx, args) => {
+        const { projectId, ...statuses } = args;
+        const updates: any = {};
+
+        if (statuses.transcription) updates.transcriptionStatus = statuses.transcription;
+        if (statuses.contentGeneration) updates.contentGenerationStatus = statuses.contentGeneration;
+
+        await ctx.db.patch(projectId, updates);
+    },
+});
+
+/**
+ * Save errors from parallel AI generation steps
+ */
+export const saveJobErrors = mutation({
+    args: {
+        projectId: v.id("projects"),
+        jobErrors: v.any(),
+    },
+    handler: async (ctx, args) => {
+        await ctx.db.patch(args.projectId, {
+            jobErrors: JSON.stringify(args.jobErrors),
+        });
+    },
+});
+
+/**
+ * Record a critical error in the workflow
+ */
+export const recordError = mutation({
+    args: {
+        projectId: v.id("projects"),
+        message: v.string(),
+        step: v.string(),
+        details: v.optional(v.string()),
+    },
+    handler: async (ctx, args) => {
+        await ctx.db.patch(args.projectId, {
+            status: "error",
+            error: args.message,
+            lastErrorStep: args.step,
+            lastErrorDetails: args.details,
+        });
+    },
+});
