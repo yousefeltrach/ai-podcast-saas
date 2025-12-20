@@ -5,7 +5,7 @@ import type { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, use } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,15 +28,16 @@ import { formatDistanceToNow } from "date-fns";
 import { deleteProjectAction, updateDisplayNameAction } from "@/app/actions/projects";
 
 interface ProjectDetailPageProps {
-    params: {
+    params: Promise<{
         id: Id<"projects">;
-    };
+    }>;
 }
 
 export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+    const { id } = use(params);
     const { userId } = useAuth();
     const router = useRouter();
-    const project = useQuery(api.projects.getProject, { projectId: params.id });
+    const project = useQuery(api.projects.getProject, { projectId: id });
 
     const [isEditingName, setIsEditingName] = useState(false);
     const [displayName, setDisplayName] = useState("");
@@ -79,7 +80,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
         }
 
         try {
-            await updateDisplayNameAction(params.id, displayName);
+            await updateDisplayNameAction(id, displayName);
             toast.success("Display name updated");
             setIsEditingName(false);
         } catch (error) {
@@ -94,7 +95,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
         setIsDeleting(true);
         try {
-            await deleteProjectAction(params.id);
+            await deleteProjectAction(id);
             toast.success("Project deleted");
             router.push("/dashboard/projects");
         } catch (error) {
