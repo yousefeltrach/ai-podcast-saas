@@ -119,14 +119,16 @@ export async function transcribeWithAssemblyAI(
       gist: chapter.gist,
     }));
 
-    // Save complete transcript with speakers AND chapters to Convex
-    // This ensures retry jobs have all the data they need
+    // Save complete transcript with utterances AND chapters to Convex
+    // This ensures retry jobs have all the data they need in the exact same format
     await convex.mutation(api.projects.saveTranscript, {
       projectId,
       transcript: {
-        ...formattedTranscript,
-        speakers,
-        chapters, // Include chapters so retry can access them
+        text: response.text || "",
+        segments: formattedSegments,
+        utterances: assemblyUtterances,
+        chapters: assemblyChapters,
+        audio_duration: response.audio_duration,
       },
     });
 

@@ -13,6 +13,7 @@ import type { Id } from "@/convex/_generated/dataModel";
 // Removed getUserPlan - using Clerk's has() directly per docs
 import { convex } from "@/lib/convex-client";
 import { api } from "@/convex/_generated/api";
+import { retryJob as retryJobLogic } from "@/gemini/functions/retry-job";
 
 export type RetryableJob =
   | "keyMoments"
@@ -53,6 +54,16 @@ export async function retryJob(projectId: Id<"projects">, job: RetryableJob) {
     originalPlan = "pro";
   }
 
+  // Trigger regeneration flow in the background
+  // We don't await the full result here to allow UI to show "Running" state immediately
+  retryJobLogic({
+    projectId,
+    job,
+    originalPlan,
+    currentPlan,
+  }).catch((err) => {
+    console.error(`Failed to retry job ${job} for project ${projectId}:`, err);
+  });
 
   return { success: true };
 }

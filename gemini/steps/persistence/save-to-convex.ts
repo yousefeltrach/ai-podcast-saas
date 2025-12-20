@@ -55,8 +55,7 @@ type GeneratedContent = {
  * 1. Save all generated content (atomic update, optional fields allowed)
  * 2. Update project status to "completed"
  *
- * Why two separate mutations?
- * - saveGeneratedContent handles optional fields (some may be missing on error)
+ * - updateProjectContent handles optional fields (some may be missing on error)
  * - updateProjectStatus is a separate concern (status management)
  * - Easier to track which step failed if error occurs
  *

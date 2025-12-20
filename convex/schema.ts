@@ -50,6 +50,7 @@ export default defineSchema({
         // Job Tracking & Errors
         transcriptionStatus: v.optional(v.union(v.literal("running"), v.literal("completed"), v.literal("error"))),
         contentGenerationStatus: v.optional(v.union(v.literal("running"), v.literal("completed"), v.literal("error"))),
+        transcript: v.optional(v.string()), // Full TranscriptWithExtras object as JSON string
         jobErrors: v.optional(v.string()), // JSON string of Record<string, string>
         lastErrorStep: v.optional(v.string()),
         lastErrorDetails: v.optional(v.string()),

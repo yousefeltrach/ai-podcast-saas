@@ -249,10 +249,24 @@ export const saveTranscript = mutation({
     handler: async (ctx, args) => {
         const { projectId, transcript } = args;
 
+        // Extract speakers from utterances if not provided as a separate field
+        // This maintains the speakerDiarization field for the UI (in seconds)
+        let speakerDiarization = undefined;
+        if (transcript.utterances) {
+            const speakers = (transcript.utterances as any[]).map(utterance => ({
+                speaker: utterance.speaker,
+                start: utterance.start / 1000,
+                end: utterance.end / 1000,
+                text: utterance.text,
+                confidence: utterance.confidence,
+            }));
+            speakerDiarization = JSON.stringify(speakers);
+        }
+
         await ctx.db.patch(projectId, {
             transcription: transcript.text,
-            speakerDiarization: transcript.speakers ? JSON.stringify(transcript.speakers) : undefined,
-            // You might also want to save chapters here if you added them to the schema
+            speakerDiarization: speakerDiarization,
+            transcript: JSON.stringify(transcript),
         });
     },
 });

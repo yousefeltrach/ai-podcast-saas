@@ -56,11 +56,12 @@ export async function retryJob({
   // Get project to access transcript
   const project = await convex.query(api.projects.getProject, { projectId });
   if (!project?.transcript) {
-    throw new Error("Project or transcript not found");
+    throw new Error("Project or transcript not found. If this is an older project, please re-process it to generate the necessary metadata.");
   }
 
   // Validate we have the complete transcript data needed for generation
-  const transcript = project.transcript as TranscriptWithExtras;
+  // The transcript is stored as a JSON string in the database
+  const transcript = JSON.parse(project.transcript) as TranscriptWithExtras;
 
   // Basic validation: All jobs need transcript text
   if (!transcript.text || transcript.text.length === 0) {
@@ -89,54 +90,54 @@ export async function retryJob({
     switch (job) {
       case "keyMoments": {
         result = await generateKeyMoments(transcript);
-        await convex.mutation(api.projects.saveGeneratedContent, {
+        await convex.mutation(api.projects.updateProjectContent, {
           projectId,
-          keyMoments: result,
+          keyMoments: JSON.stringify(result),
         });
         break;
       }
 
       case "summary": {
         result = await generateSummary(transcript);
-        await convex.mutation(api.projects.saveGeneratedContent, {
+        await convex.mutation(api.projects.updateProjectContent, {
           projectId,
-          summary: result,
+          summary: JSON.stringify(result),
         });
         break;
       }
 
       case "socialPosts": {
         result = await generateSocialPosts(transcript);
-        await convex.mutation(api.projects.saveGeneratedContent, {
+        await convex.mutation(api.projects.updateProjectContent, {
           projectId,
-          socialPosts: result,
+          socialPosts: JSON.stringify(result),
         });
         break;
       }
 
       case "titles": {
         result = await generateTitles(transcript);
-        await convex.mutation(api.projects.saveGeneratedContent, {
+        await convex.mutation(api.projects.updateProjectContent, {
           projectId,
-          titles: result,
+          titles: JSON.stringify(result),
         });
         break;
       }
 
       case "hashtags": {
         result = await generateHashtags(transcript);
-        await convex.mutation(api.projects.saveGeneratedContent, {
+        await convex.mutation(api.projects.updateProjectContent, {
           projectId,
-          hashtags: result,
+          hashtags: JSON.stringify(result),
         });
         break;
       }
 
       case "youtubeTimestamps": {
         result = await generateYouTubeTimestamps(transcript);
-        await convex.mutation(api.projects.saveGeneratedContent, {
+        await convex.mutation(api.projects.updateProjectContent, {
           projectId,
-          youtubeTimestamps: result,
+          youtubeTimestamps: JSON.stringify(result),
         });
         break;
       }

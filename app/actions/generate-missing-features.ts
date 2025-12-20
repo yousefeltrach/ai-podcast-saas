@@ -20,6 +20,7 @@ import { convex } from "@/lib/convex-client";
 import { api } from "@/convex/_generated/api";
 import { PLAN_FEATURES, FEATURE_TO_JOB_MAP } from "@/lib/tier-config";
 import type { RetryableJob } from "./retry-job";
+import { retryJob } from "@/gemini/functions/retry-job";
 
 /**
  * Generate all missing features for user's current plan
@@ -87,6 +88,21 @@ export async function generateMissingFeatures(projectId: Id<"projects">) {
     );
   }
 
+  // Trigger regeneration flow for each missing feature in the background
+  // We use Promise.all to trigger them but don't await the full result
+  // to return quickly to the user
+  Promise.all(
+    missingJobs.map((job) =>
+      retryJob({
+        projectId,
+        job,
+        originalPlan,
+        currentPlan,
+      })
+    )
+  ).catch((err) => {
+    console.error(`Failed to trigger missing features for project ${projectId}:`, err);
+  });
 
   return {
     success: true,

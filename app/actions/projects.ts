@@ -24,6 +24,7 @@ import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { convex } from "@/lib/convex-client";
 import { checkUploadLimits } from "@/lib/tier-utils";
+import { processPodcast } from "@/gemini/functions/podcast-processor";
 
 /**
  * Validate upload before starting
@@ -152,6 +153,15 @@ export async function createProjectAction(input: CreateProjectInput) {
       mimeType: mimeType,
     });
 
+    // Trigger AI processing workflow in the background
+    // We don't await this to allow immediate redirect for the user
+    processPodcast({
+      projectId,
+      fileUrl,
+      plan,
+    }).catch((err) => {
+      console.error(`Workflow trigger failed for project ${projectId}:`, err);
+    });
 
     return { success: true, projectId };
   } catch (error) {
